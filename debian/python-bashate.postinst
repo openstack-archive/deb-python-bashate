@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+if [ "$1" = "configure" ] ; then
+	update-alternatives --install /usr/bin/bashate bashate /usr/bin/python2-bashate 300
+fi
+
+#DEBHELPER#
+
+exit 0

@@ -1,0 +1,70 @@
+Source: python-bashate
+Section: python
+Priority: optional
+Maintainer: PKG OpenStack <openstack-devel@lists.alioth.debian.org>
+Uploaders: Thomas Goirand <zigo@debian.org>
+Build-Depends: debhelper (>= 9),
+               openstack-pkg-tools,
+               python-all (>= 2.6.6-3~),
+               python-pbr (>= 0.6),
+               python-setuptools,
+               python-sphinx,
+               python3-all,
+               python3-pbr (>= 0.6),
+               python3-setuptools
+Build-Depends-Indep: python-babel (>= 0.9.6),
+                     python-fixtures (>= 0.3.14),
+                     python-mock (>= 1.0),
+                     python-oslosphinx,
+                     python-subunit,
+                     python-testscenarios (>= 0.4),
+                     python-testtools (>= 0.9.32),
+                     python3-babel (>= 0.9.6),
+                     python3-fixtures (>= 0.3.14),
+                     python3-mock (>= 1.0),
+                     python3-subunit,
+                     python3-testscenarios (>= 0.4),
+                     python3-testtools (>= 0.9.32),
+                     subunit,
+                     testrepository (>= 0.0.17)
+Standards-Version: 3.9.5
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=openstack/python-bashate.git
+Vcs-Git: git://anonscm.debian.org/openstack/python-bashate.git
+Homepage: http://www.openstack.org/
+
+Package: python-bashate
+Architecture: all
+Pre-Depends: dpkg (>= 1.15.6~)
+Depends: ${misc:Depends}, ${python:Depends}
+Description: bash script style guide checker - Python 2.x
+ This program attempts to be an automated style checker for bash scripts to
+ fill the same part of code review that pep8 does in most OpenStack projects.
+ It started from humble beginnings in the DevStack project, and will continue
+ to evolve over time.
+ .
+ This package contains the Python 2.x module and command line utility.
+
+Package: python3-bashate
+Architecture: all
+Pre-Depends: dpkg (>= 1.15.6~)
+Depends: ${misc:Depends}, ${python3:Depends}
+Description: bash script style guide checker - Python 3.x
+ This program attempts to be an automated style checker for bash scripts to
+ fill the same part of code review that pep8 does in most OpenStack projects.
+ It started from humble beginnings in the DevStack project, and will continue
+ to evolve over time.
+ .
+ This package contains the Python 3.x module and command line utility.
+
+Package: python-bashate-doc
+Section: doc
+Architecture: all
+Pre-Depends: dpkg (>= 1.15.6~)
+Depends: ${misc:Depends}, ${sphinxdoc:Depends}
+Description: bash script style guide checker - doc
+ This program attempts to be an automated style checker for bash scripts to
+ fill the same part of code review that pep8 does in most OpenStack projects.
+ It started from humble beginnings in the DevStack project, and will continue
+ to evolve over time.
+ .
+ This package contains the documentation.

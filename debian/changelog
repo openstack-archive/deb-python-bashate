@@ -1,0 +1,5 @@
+python-bashate (0.2.0-1) unstable; urgency=medium
+
+  * Initial release.
+
+ -- Thomas Goirand <zigo@debian.org>  Sun, 17 Aug 2014 23:19:38 +0800
