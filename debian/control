@@ -30,7 +30,7 @@ Build-Depends-Indep: python-babel (>= 0.9.6),
 Standards-Version: 3.9.5
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=openstack/python-bashate.git
 Vcs-Git: git://anonscm.debian.org/openstack/python-bashate.git
-Homepage: http://www.openstack.org/
+Homepage: https://github.com/openstack-dev/bashate
 
 Package: python-bashate
 Architecture: all

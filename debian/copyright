@@ -1,6 +1,6 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: bashate
-Source: http://www.openstack.org/
+Source: git://github.com/openstack-dev/bashate.git
 
 Files: debian/*
 Copyright: (c) 2014, Thomas Goirand <zigo@debian.org>
