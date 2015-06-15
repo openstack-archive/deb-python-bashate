@@ -7,6 +7,7 @@ python-bashate (0.3.1-1) unstable; urgency=medium
   * Dropped version in most (build-)depends, since they are available in both
     Jessie and Trusty.
   * Fixed watch file to use github tag instead of pypi.
+  * Standards-Version is now 3.9.6 (no change).
 
  -- Thomas Goirand <zigo@debian.org>  Mon, 15 Jun 2015 15:40:19 +0000
 

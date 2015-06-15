@@ -29,7 +29,7 @@ Build-Depends-Indep: python-babel,
                      python3-testtools,
                      subunit,
                      testrepository,
-Standards-Version: 3.9.5
+Standards-Version: 3.9.6
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=openstack/python-bashate.git
 Vcs-Git: git://anonscm.debian.org/openstack/python-bashate.git
 Homepage: https://github.com/openstack-dev/bashate
