@@ -1,8 +1,9 @@
-python-bashate (0.2.0-2) UNRELEASED; urgency=medium
+python-bashate (0.3.1-1) unstable; urgency=medium
 
+  * New upstream release.
   * Added dh-python as build-depends.
 
- -- Thomas Goirand <zigo@debian.org>  Thu, 12 Feb 2015 15:45:39 +0100
+ -- Thomas Goirand <zigo@debian.org>  Mon, 15 Jun 2015 15:40:19 +0000
 
 python-bashate (0.2.0-1) unstable; urgency=medium
 
