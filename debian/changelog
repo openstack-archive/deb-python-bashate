@@ -3,6 +3,8 @@ python-bashate (0.3.1-1) unstable; urgency=medium
   * New upstream release.
   * Added dh-python as build-depends.
   * Switching to gz compression for the orig.tar.
+  * Dropped version in most (build-)depends, since they are available in both
+    Jessie and Trusty.
 
  -- Thomas Goirand <zigo@debian.org>  Mon, 15 Jun 2015 15:40:19 +0000
 
