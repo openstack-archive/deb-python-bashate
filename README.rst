@@ -11,7 +11,7 @@ and will continue to evolve over time.
 
 - Free software: Apache license
 - Documentation: http://docs.openstack.org/developer/bashate
-- Source: http://git.openstack.org/cgit/openstack-dev/bash8
+- Source: http://git.openstack.org/cgit/openstack-dev/bashate
 - Bugs: http://bugs.launchpad.net/bash8
 
 Currently Supported Checks
@@ -35,6 +35,18 @@ These are ignored on long lines that have a continuation, because
 unrolling that is kind of "interesting"
 
 - E010: *do* not on the same line as *for*
-- E011: *then* not on the same line as *if*
+- E011: *then* not on the same line as *if* or *elif*
 - E012: heredoc didn't end before EOF
 - E020: Function declaration not in format ``^function name {$``
+
+Obsolete and deprecated syntax
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Rules to identify obsolete and deprecated syntax that should not be used
+
+- E041: Usage of $[ for arithmetic is deprecated for $((
+
+See also
+~~~~~~~~
+
+See also :doc:`/man/bashate`.

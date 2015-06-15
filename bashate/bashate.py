@@ -14,8 +14,6 @@
 
 import argparse
 import fileinput
-import fnmatch
-import os
 import re
 import sys
 
@@ -29,6 +27,12 @@ def check_for_do(line, report):
         match = re.match('^\s*(for|while|until)\s', line)
         if match:
             operator = match.group(1).strip()
+            if operator == "for":
+                # "for i in ..." and "for ((" is bash, but
+                # "for (" is likely from an embedded awk script,
+                # so skip it
+                if re.search('for \([^\(]', line):
+                    return
             if not re.search(';\s*do(\b|$)', line):
                 report.print_error(('E010: Do not on same line as %s' %
                                     operator), line)
@@ -36,10 +40,10 @@ def check_for_do(line, report):
 
 def check_if_then(line, report):
     if not_continuation(line):
-        if re.search('^\s*if \[', line):
+        if re.search('^\s*(el)?if \[', line):
             if not re.search(';\s*then(\b|$)', line):
-                report.print_error('E011: Then keyword is not on same line'
-                                   ' as if keyword', line)
+                report.print_error('E011: Then keyword is not on same line '
+                                   'as if or elif keyword', line)
 
 
 def check_no_trailing_whitespace(line, report):
@@ -69,7 +73,7 @@ def check_function_decl(line, report):
 
     if failed:
         report.print_error('E020: Function declaration not in format '
-                           ' "^function name {$"', line)
+                           '"^function name {$"', line)
 
 
 def starts_multiline(line):
@@ -84,6 +88,12 @@ def end_of_multiline(line, token):
     if token:
         return re.search("^%s\s*$" % token, line) is not None
     return False
+
+
+def check_arithmetic(line, report):
+    if "$[" in line:
+        report.print_error('E041: Arithmetic expansion using $[ '
+                           'is deprecated for $((', line)
 
 
 class BashateRun(object):
@@ -113,7 +123,7 @@ class BashateRun(object):
 
     def log_error(self, error, line, filename, filelineno):
         print("%s: '%s'" % (error, line.rstrip('\n')))
-        print(" - %s: L%s" % (filename, filelineno))
+        print(" - %s : L%s" % (filename, filelineno))
 
     def check_files(self, files, verbose):
         in_multiline = False
@@ -172,59 +182,61 @@ class BashateRun(object):
                     else:
                         in_multiline = False
 
+                # Don't run any tests on comment lines
+                if logical_line.lstrip().startswith('#'):
+                    prev_line = logical_line
+                    prev_lineno = fileinput.filelineno()
+                    continue
+
+                # Strip trailing comments. From bash:
+                #
+                #   a word beginning with # causes that word and all
+                #   remaining characters on that line to be ignored.
+                #   ...
+                #   A character that, when unquoted, separates
+                #   words. One of the following: | & ; ( ) < > space
+                #   tab
+                #
+                # for simplicity, we strip inline comments by
+                # matching just '<space>#'.
+                ll_split = logical_line.split(' #', 1)
+                if len(ll_split) > 1:
+                    logical_line = ll_split[0].rstrip()
+
                 check_no_trailing_whitespace(logical_line, report)
                 check_indents(logical_line, report)
                 check_for_do(logical_line, report)
                 check_if_then(logical_line, report)
                 check_function_decl(logical_line, report)
+                check_arithmetic(logical_line, report)
 
                 prev_line = logical_line
                 prev_lineno = fileinput.filelineno()
 
 
-def discover_files():
-    """Discover likely files if none are passed in on the command line."""
-    files = set()
-    # everything that ends in .sh
-    for root, dirs, filenames in os.walk('.'):
-        for filename in fnmatch.filter(filenames, '*.sh'):
-            files.add(os.path.join(root, filename))
-        # functions and rc files
-        for filename in filenames:
-            if re.search('(^functions|rc$)', filename):
-                files.add(os.path.join(root, filename))
-        # grenade upgrade scripts
-        for filename in filenames:
-            if re.search('^(prep|stop|upgrade)-', filename):
-                files.add(os.path.join(root, filename))
+def main():
 
-    # devstack specifics (everything in lib that isn't md)
-    for root, dirs, filenames in os.walk('lib'):
-        for filename in filenames:
-            if not re.search('\.md$', filename):
-                files.add(os.path.join(root, filename))
-
-    return sorted(files)
-
-
-def get_options():
     parser = argparse.ArgumentParser(
         description='A bash script style checker')
     parser.add_argument('files', metavar='file', nargs='*',
                         help='files to scan for errors')
     parser.add_argument('-i', '--ignore', help='Rules to ignore')
     parser.add_argument('-v', '--verbose', action='store_true', default=False)
-    return parser.parse_args()
+    opts = parser.parse_args()
 
-
-def main():
-    opts = get_options()
-    run = BashateRun()
-    run.register_ignores(opts.ignore)
     files = opts.files
     if not files:
-        files = discover_files()
-    run.check_files(files, opts.verbose)
+        parser.print_usage()
+        return 1
+
+    run = BashateRun()
+    run.register_ignores(opts.ignore)
+
+    try:
+        run.check_files(files, opts.verbose)
+    except IOError as e:
+        print("bashate: %s" % e)
+        return 1
 
     if run.ERRORS > 0:
         print("%d bashate error(s) found" % run.ERRORS)

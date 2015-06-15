@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
 # a copy of the License at
@@ -22,7 +20,6 @@ Tests for `bashate` module.
 import mock
 
 from bashate import bashate
-
 from bashate.tests import base
 
 
@@ -30,29 +27,40 @@ class TestBashate(base.TestCase):
 
     def setUp(self):
         super(TestBashate, self).setUp()
+        self.run = bashate.BashateRun()
 
-    def test_multi_ignore(self):
-        run = bashate.BashateRun()
-        run.register_ignores('E001|E011')
+    def test_multi_ignore_with_slash(self):
+        self.run.register_ignores('E001|E011')
+        bashate.check_no_trailing_whitespace("if ", self.run)
+        bashate.check_if_then("if ", self.run)
 
-        bashate.check_no_trailing_whitespace("if ", run)
-        bashate.check_if_then("if ", run)
+        self.assertEqual(0, self.run.ERRORS)
 
-        self.assertEqual(run.ERRORS, 0)
+    def test_multi_ignore_with_comma(self):
+        self.run.register_ignores('E001,E011')
+        bashate.check_no_trailing_whitespace("if ", self.run)
+        bashate.check_if_then("if ", self.run)
+
+        self.assertEqual(0, self.run.ERRORS)
+
+    def test_multi_ignore_mixed(self):
+        self.run.register_ignores('E001|E002,E003|E011')
+        bashate.check_no_trailing_whitespace("if ", self.run)
+        bashate.check_if_then("if ", self.run)
+        bashate.check_indents("  echo", self.run)
+
+        self.assertEqual(0, self.run.ERRORS)
 
     def test_ignore(self):
-        run = bashate.BashateRun()
-        run.register_ignores('E001')
+        self.run.register_ignores('E001')
+        bashate.check_no_trailing_whitespace("if ", self.run)
 
-        bashate.check_no_trailing_whitespace("if ", run)
-
-        self.assertEqual(run.ERRORS, 0)
+        self.assertEqual(0, self.run.ERRORS)
 
     @mock.patch('bashate.bashate.BashateRun.print_error')
     def test_while_check_for_do(self, m_print_error):
-        run = bashate.BashateRun()
         test_line = 'while `do something args`'
-        bashate.check_for_do(test_line, run)
+        bashate.check_for_do(test_line, self.run)
 
         m_print_error.assert_called_once_with(
             'E010: Do not on same line as while', test_line)
@@ -74,8 +82,7 @@ class TestBashateSamples(base.TestCase):
         for call in self.m_log_error.call_args_list:
             # unwrap args
             args = call[0]
-            if (args[0].startswith(error) and
-                lineno == args[3]):
+            if (args[0].startswith(error) and lineno == args[3]):
                 error_found = True
         if not error_found:
             self.fail('Error %s expected at line %d not found!' %
@@ -92,6 +99,32 @@ class TestBashateSamples(base.TestCase):
         self.run.check_files(test_files, False)
 
         self.assert_error_found('E002', 3)
+
+    def test_sample_E011(self):
+        test_files = ['bashate/tests/samples/E011_bad.sh']
+        self.run.check_files(test_files, False)
+
+        self.assert_error_found('E011', 3)
+        self.assert_error_found('E011', 6)
+
+    def test_sample_E041(self):
+        test_files = ['bashate/tests/samples/E041_bad.sh']
+        self.run.check_files(test_files, False)
+
+        self.assert_error_found('E041', 4)
+
+    def test_sample_for_loops(self):
+        test_files = ['bashate/tests/samples/for_loops.sh']
+        self.run.check_files(test_files, False)
+
+        self.assert_error_found('E010', 14)
+        self.assert_error_found('E010', 20)
+
+    def test_sample_comments(self):
+        test_files = ['bashate/tests/samples/comments.sh']
+        self.run.check_files(test_files, False)
+
+        self.assertEqual(0, self.run.ERRORS)
 
     def test_pre_zero_dot_one_sample_file(self):
         """Test the sample file with all pre 0.1.0 release checks.
