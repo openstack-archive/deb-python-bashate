@@ -1,6 +1,7 @@
 python-bashate (0.3.1-1) unstable; urgency=medium
 
-  * New upstream release.
+  * New upstream release:
+    - The package no-longer does file discover by itself (Closes: #776549).
   * Added dh-python as build-depends.
   * Switching to gz compression for the orig.tar.
   * Dropped version in most (build-)depends, since they are available in both
