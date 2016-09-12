@@ -1,0 +1,9 @@
+Code-Review+2: Ian Wienand <iwienand@redhat.com>
+Code-Review+1: Sergey Lukjanov <slukjanov@mirantis.com>
+Workflow+1: Mathew Odden <locke105@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Fri, 31 Oct 2014 21:40:56 +0000
+Reviewed-on: https://review.openstack.org/132136
+Project: openstack/deb-python-bashate
+Branch: refs/heads/master

@@ -1,0 +1,10 @@
+Code-Review+2: Sean Dague <sean@dague.net>
+Code-Review+1: K Jonathan Harker <code@gentlydownthe.net>
+Code-Review+2: Dean Troyer <dtroyer@gmail.com>
+Workflow+1: Dean Troyer <dtroyer@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Thu, 26 Feb 2015 22:15:20 +0000
+Reviewed-on: https://review.openstack.org/150796
+Project: openstack/deb-python-bashate
+Branch: refs/heads/master

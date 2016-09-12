@@ -1,0 +1,10 @@
+Code-Review+1: Swapnil Kulkarni (coolsvap) <me@coolsvap.net>
+Code-Review+2: Sean Dague <sean@dague.net>
+Code-Review+2: Sean M. Collins <sean@coreitpro.com>
+Workflow+1: Sean M. Collins <sean@coreitpro.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Tue, 05 Jan 2016 18:07:34 +0000
+Reviewed-on: https://review.openstack.org/248255
+Project: openstack/deb-python-bashate
+Branch: refs/heads/master

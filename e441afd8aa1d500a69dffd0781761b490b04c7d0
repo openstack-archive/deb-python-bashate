@@ -1,0 +1,11 @@
+Code-Review+2: Sean Dague <sean@dague.net>
+Code-Review+1: Sam Betts <sam@code-smash.net>
+Code-Review+1: K Jonathan Harker <code@gentlydownthe.net>
+Code-Review+2: Chmouel Boudjnah <chmouel@chmouel.com>
+Workflow+1: Chmouel Boudjnah <chmouel@chmouel.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Mon, 26 Jan 2015 12:40:57 +0000
+Reviewed-on: https://review.openstack.org/126853
+Project: openstack/deb-python-bashate
+Branch: refs/heads/master
