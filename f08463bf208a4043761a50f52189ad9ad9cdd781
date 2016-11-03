@@ -1,0 +1,8 @@
+Code-Review+2: Sean M. Collins <sean@coreitpro.com>
+Workflow+1: Sean M. Collins <sean@coreitpro.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Wed, 02 Nov 2016 19:00:58 +0000
+Reviewed-on: https://review.openstack.org/389814
+Project: openstack/deb-python-bashate
+Branch: refs/heads/master
